@@ -1,0 +1,36 @@
+type Country {
+  country_id: Int
+  country: String
+  city: [City]
+}
+type City {
+  city_id: Int
+  city: String
+  country: Country
+}
+
+type Address {
+  address_id: Int
+  address: String
+  address2:String
+  city: City
+  postal_code: String
+  phone: String
+  store: [Store]
+  location: String
+}
+type Store {
+  store_id: Int
+  manager_staff_id: Int
+  address_id: Int
+}
+
+type Query {
+  getCountries: [Country]
+  getCountry(country_id: Int!): Country
+  getCities: [City]
+  getCity(city_id: Int!): City
+  getAddresses: [Address]
+  getAddress(address_id: Int!): Address
+}
+
