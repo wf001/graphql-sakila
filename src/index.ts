@@ -11,23 +11,18 @@ const prisma = new PrismaClient();
 
 const resolvers = {
   Query: {
-    getCountries: () => prisma.country.findMany({ include: { city: true } }),
-    getCountry: (_, args) =>
-      prisma.country.findFirst({
+    getCustomers: () => prisma.customer.findMany({}),
+    getCustomerAddress: (_, args) =>
+      prisma.customer.findUnique({
         where: args,
-        include: { city: true },
+        include: {
+          address: { include: { city: { include: { country: true } } } },
+        },
       }),
-    getCities: () => prisma.city.findMany({ include: { country: true } }),
-    getCity: (_, args) =>
-      prisma.city.findUnique({
+    getCustomerRentalInfo: (_, args) =>
+      prisma.customer.findUnique({
         where: args,
-        include: { country: true },
-      }),
-    getAddresses: () => prisma.address.findMany({ include: { city: true } }),
-    getAddress: (_, args) =>
-      prisma.address.findUnique({
-        where: args,
-        include: { city: true, store: true },
+        include: { payment: { include: { rental: true } } },
       }),
   },
 };
